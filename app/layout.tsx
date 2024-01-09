@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import { GeistSans } from "geist/font/sans";
+import { DM_Sans } from "next/font/google";
 
 import { Provider } from "./provider";
 
@@ -14,19 +14,20 @@ export const metadata = {
   description: "The fastest way to build apps with Next.js and Supabase",
 };
 
+const dm = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <Provider>
-          <main className="flex flex-col items-center min-h-screen">
-            {children}
-          </main>
-        </Provider>
+    <html lang="en" className="light scroll-smooth">
+      <body className={dm.className}>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
