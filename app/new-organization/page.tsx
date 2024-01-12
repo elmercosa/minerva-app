@@ -1,39 +1,46 @@
-import { Button, Input, Link } from "@nextui-org/react";
-import { IconChevronLeft } from "@tabler/icons-react";
-import { cookies, headers } from "next/headers";
+import { Button, Input } from "@nextui-org/react";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 import { createClient } from "@/utils/supabase/server";
 
-export default function Page() {
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: organization, error } = await supabase
+    .from("organizations")
+    .select()
+    .eq("owner_id", user?.id)
+    .single();
+
+  if (organization) {
+    redirect(`/admin/organizations/${organization.slug}`);
+  }
+
   const signUp = async (formData: FormData) => {
     "use server";
-    const origin = headers().get("origin");
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
     const name = formData.get("name") as string;
-    const surnames = formData.get("surnames") as string;
-    const username = formData.get("username") as string;
+    const owner_id = formData.get("owner_id") as string;
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-        data: {
-          name,
-          surnames,
-          user_name: username,
-        },
-      },
-    });
+    const { data, error } = await supabase
+      .from("organizations")
+      .insert([{ email, name, owner_id }])
+      .select();
 
     if (error) {
       console.log("error :>> ", error);
     } else {
-      return redirect("/login?message=successRegister");
+      console.log("bieeeeeen :>> ");
+      toast.success("Organización creada correctamente");
     }
   };
 
@@ -46,27 +53,12 @@ export default function Page() {
             className="flex flex-col justify-center flex-1 gap-6 animate-in text-foreground"
             action={signUp}
           >
+            <input type="hidden" name="owner_id" value={user?.id} />
             <Input
               label="Nombre"
               name="name"
               type="text"
-              placeholder="ejemplo@minerva.com"
-              labelPlacement="outside"
-              isRequired
-            />
-            <Input
-              label="Descripción"
-              name="description"
-              type="text"
-              placeholder="ejemplo@minerva.com"
-              labelPlacement="outside"
-              isRequired
-            />
-            <Input
-              label="Nombre de usuario"
-              name="username"
-              type="text"
-              placeholder="ejemplo@minerva.com"
+              placeholder="Minerva"
               labelPlacement="outside"
               isRequired
             />
@@ -75,14 +67,6 @@ export default function Page() {
               name="email"
               type="email"
               placeholder="ejemplo@minerva.com"
-              labelPlacement="outside"
-              isRequired
-            />
-            <Input
-              label="Contraseña"
-              name="password"
-              type="password"
-              placeholder="*******"
               labelPlacement="outside"
               isRequired
             />
