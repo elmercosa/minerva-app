@@ -38,19 +38,21 @@ export default async function TopBar() {
           <p className="">
             <span className="text-xl font-bold text-primary"> Minerva/</span>
             <span className="text-sm font-semibold text-black">
-              {organization.name}
+              {organization?.name}
             </span>
           </p>
         </div>
       </NavbarBrand>
       <NavbarContent className="hidden gap-6 sm:flex" justify="center">
         <NavbarItem isActive>
-          <Link href={`/admin/organizations/${organization.slug}`}>Inicio</Link>
+          <Link href={`/admin/organizations/${organization?.slug}`}>
+            Inicio
+          </Link>
         </NavbarItem>
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/projects`}
+            href={`/admin/organizations/${organization?.slug}/projects`}
           >
             Proyectos
           </Link>
@@ -58,7 +60,7 @@ export default async function TopBar() {
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/tasks`}
+            href={`/admin/organizations/${organization?.slug}/tasks`}
           >
             Tareas
           </Link>
@@ -66,7 +68,7 @@ export default async function TopBar() {
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/issues`}
+            href={`/admin/organizations/${organization?.slug}/issues`}
           >
             Incidencias
           </Link>
@@ -74,7 +76,7 @@ export default async function TopBar() {
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/sprints`}
+            href={`/admin/organizations/${organization?.slug}/sprints`}
           >
             Sprints
           </Link>
@@ -82,7 +84,15 @@ export default async function TopBar() {
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/teams`}
+            href={`/admin/organizations/${organization?.slug}/members`}
+          >
+            Miembros
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href={`/admin/organizations/${organization?.slug}/teams`}
           >
             Equipos
           </Link>
@@ -90,7 +100,7 @@ export default async function TopBar() {
         <NavbarItem>
           <Link
             color="foreground"
-            href={`/admin/organizations/${organization.slug}/chat`}
+            href={`/admin/organizations/${organization?.slug}/chat`}
           >
             Chat
           </Link>

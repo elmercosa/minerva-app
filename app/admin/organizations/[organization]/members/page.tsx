@@ -3,11 +3,10 @@ import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
+import AddMember from "@/components/organizations/members/addMember";
 import EntityTable from "@/components/table/table";
-import AddTeam from "@/components/teams/addTeam";
-import AddTeamMembers from "@/components/teams/addTeamMembers";
 import useUser from "@/hooks/useUser";
-import { getEntities } from "@/services/entityService";
+import { getUsersByOrganization } from "@/services/userService";
 
 export default function Page() {
   const User: any = useUser();
@@ -15,8 +14,8 @@ export default function Page() {
   const [enableQuery, setEnableQuery] = useState(false);
 
   const GetMembers = useQuery({
-    queryKey: "teams",
-    queryFn: () => getEntities("teams"),
+    queryKey: "members",
+    queryFn: () => getUsersByOrganization(User.data?.organization?.id || ""),
     retry: false,
     refetchOnWindowFocus: false,
     enabled: enableQuery,
@@ -34,8 +33,12 @@ export default function Page() {
       label: "Nombre",
     },
     {
-      key: "description",
-      label: "Descripción",
+      key: "surnames",
+      label: "Apellidos",
+    },
+    {
+      key: "user_name",
+      label: "Nombre de usuario",
     },
     {
       key: "actions",
@@ -47,7 +50,8 @@ export default function Page() {
     return entities.filter((user: any) => {
       return (
         user?.name?.toLowerCase().includes(filterValue.toLowerCase()) ||
-        user?.description?.toLowerCase().includes(filterValue.toLowerCase())
+        user?.surnames?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        user?.user_name?.toLowerCase().includes(filterValue.toLowerCase())
       );
     });
   };
@@ -55,15 +59,7 @@ export default function Page() {
   const tableHeader = () => {
     return (
       <>
-        <AddTeam />
-      </>
-    );
-  };
-
-  const actions = (id: string) => {
-    return (
-      <>
-        <AddTeamMembers id={id} />
+        <AddMember />
       </>
     );
   };
@@ -71,10 +67,10 @@ export default function Page() {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-6">
       <header className="flex flex-col items-center justify-center w-full gap-4">
-        <h1 className="text-5xl font-bold animate-in">Equipos</h1>
+        <h1 className="text-5xl font-bold animate-in">Miembros</h1>
         <Breadcrumbs>
           <BreadcrumbItem>Inicio</BreadcrumbItem>
-          <BreadcrumbItem>Equipos</BreadcrumbItem>
+          <BreadcrumbItem>Miembros</BreadcrumbItem>
         </Breadcrumbs>
       </header>
       <div className="w-10/12">
@@ -82,14 +78,14 @@ export default function Page() {
           entities={GetMembers.data?.data || []}
           loading={GetMembers.isLoading}
           columns={columns}
-          actions={actions}
+          actions={null}
           filterFunction={filterFunction}
           tableHeader={tableHeader}
-          entityName="equipo"
-          entityNamePlural="equipos"
+          entityName="miembro"
+          entityNamePlural="miembros"
           needsUpdate={false}
-          collection="teams"
-          deleteAttribute="id"
+          collection="organizations_users"
+          deleteAttribute="user_id"
         />
       </div>
     </div>

@@ -1,17 +1,9 @@
-import { cookies } from "next/headers";
-
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 async function getOrganizationByUser(id: string) {
-  "use server";
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("organizations")
-    .select()
-    .eq("owner_id", id)
-    .single();
+  const { data, error } = await supabase.from("organizations").select("*");
 
   return { data, error };
 }

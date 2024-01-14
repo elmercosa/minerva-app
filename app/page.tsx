@@ -2,9 +2,12 @@
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
-export default async function Index() {
+import useUser from "@/hooks/useUser";
+
+export default function Index() {
+  const User = useUser();
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen gap-6">
+    <div className="flex flex-col items-center justify-center w-full gap-6">
       <h2 className="text-6xl font-bold animate-in">Bienvenido a Minerva</h2>
       <div className="flex items-center justify-center gap-4">
         <Button
