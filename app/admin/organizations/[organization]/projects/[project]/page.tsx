@@ -11,7 +11,7 @@ import {
   Skeleton,
 } from "@nextui-org/react";
 import { IconChevronDown, IconEye } from "@tabler/icons-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 import EntityTable from "@/components/table/table";
