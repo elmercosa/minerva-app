@@ -154,9 +154,9 @@ export default function EntityTable({
           showShadow={false}
           classNames={{
             wrapper: "shadow-none text-white font-semibold",
-            item: "bg-white",
-            next: "bg-white",
-            prev: "bg-white",
+            item: "bg-white dark:bg-default-50",
+            next: "bg-white dark:bg-default-50",
+            prev: "bg-white dark:bg-default-50",
           }}
           color="primary"
           page={page}
@@ -252,62 +252,50 @@ export default function EntityTable({
   }, [needsUpdate]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col w-full gap-4">
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="flex items-center justify-start gap-3">
-            <div className="flex items-center justify-start gap-2">
-              <Input
-                isClearable
-                classNames={{
-                  inputWrapper:
-                    "border-none bg-white shadow-none rounded-xl w-80 p-3 h-fit",
-                }}
-                startContent={<IconSearch size={16} />}
-                placeholder={`Buscar ${entityName}`}
-                value={filterValue}
-                onValueChange={setFilterValue}
-                radius="none"
-                variant="bordered"
-                size="sm"
-              />
-            </div>
-          </div>
-          {title && (
-            <h2 className="text-2xl font-bold text-default-900">{title}</h2>
-          )}
-          <div className="flex items-center justify-end gap-3">
-            <Dropdown
-              classNames={{
-                trigger: "bg-white",
-              }}
-            >
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<IconChevronDown size={14} />}
-                  className="p-5"
-                  variant="flat"
-                >
-                  Columnas
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
+    <div className="flex flex-col w-full gap-4">
+      <div className="flex items-center justify-between w-full px-4 py-3 bg-white dark:bg-default-50 rounded-xl">
+        <Input
+          classNames={{
+            inputWrapper: "h-10",
+          }}
+          isClearable
+          className="w-fit h-fit"
+          startContent={<IconSearch size={16} />}
+          placeholder={`Buscar ${entityName}`}
+          value={filterValue}
+          onValueChange={setFilterValue}
+          size="sm"
+        />
+        {title && (
+          <h2 className="text-2xl font-bold text-default-900">{title}</h2>
+        )}
+        <div className="flex items-center justify-end gap-3">
+          <Dropdown>
+            <DropdownTrigger className="hidden sm:flex">
+              <Button
+                endContent={<IconChevronDown size={14} />}
+                className="p-5"
+                variant="flat"
               >
-                {columns.map((column: any) => (
-                  <DropdownItem key={column.key} className="capitalize">
-                    {column.label}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            {tableHeader && tableHeader()}
-          </div>
+                Columnas
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={visibleColumns}
+              selectionMode="multiple"
+              onSelectionChange={setVisibleColumns}
+            >
+              {columns.map((column: any) => (
+                <DropdownItem key={column.key} className="capitalize">
+                  {column.label}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+          {tableHeader && tableHeader()}
         </div>
       </div>
       <Table

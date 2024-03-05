@@ -93,7 +93,7 @@ export default function Page({
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-6">
-      <header className="flex flex-col items-center justify-center w-full gap-4">
+      <header className="flex flex-col items-start justify-center w-full gap-4">
         <h1 className="text-5xl font-bold animate-in">Sprints</h1>
         <Breadcrumbs>
           <BreadcrumbItem>Inicio</BreadcrumbItem>
@@ -102,21 +102,19 @@ export default function Page({
           <BreadcrumbItem> Sprints </BreadcrumbItem>
         </Breadcrumbs>
       </header>
-      <div className="w-10/12">
-        <EntityTable
-          entities={GetSprints.data?.data || []}
-          loading={GetSprints.isLoading}
-          columns={columns}
-          actions={actions}
-          filterFunction={filterFunction}
-          tableHeader={tableHeader}
-          entityName="sprint"
-          entityNamePlural="sprints"
-          needsUpdate={false}
-          collection="sprints"
-          deleteAttribute="id"
-        />
-      </div>
+      <EntityTable
+        entities={GetSprints.data?.data || []}
+        loading={GetSprints.isLoading}
+        columns={columns}
+        actions={actions}
+        filterFunction={filterFunction}
+        tableHeader={tableHeader}
+        entityName="sprint"
+        entityNamePlural="sprints"
+        needsUpdate={false}
+        collection="sprints"
+        deleteAttribute="id"
+      />
     </div>
   );
 }

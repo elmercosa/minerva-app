@@ -153,7 +153,7 @@ export default function Page({
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-6">
-      <header className="flex flex-col items-center justify-center w-full gap-4">
+      <header className="flex flex-col items-start justify-center w-full gap-4">
         <h1 className="text-5xl font-bold animate-in">
           <Skeleton isLoaded={!GetProject.isLoading} className="rounded-lg">
             {GetProject.data?.data?.name}
@@ -182,21 +182,19 @@ export default function Page({
           </BreadcrumbItem>
         </Breadcrumbs>
       </header>
-      <div className="w-10/12">
-        <EntityTable
-          entities={visibleTasks || []}
-          loading={GetTasks.isLoading}
-          columns={columns}
-          actions={actions}
-          filterFunction={filterFunction}
-          tableHeader={tableHeader}
-          entityName="miembro"
-          entityNamePlural="miembros"
-          needsUpdate={false}
-          collection="teams_users"
-          deleteAttribute="user_id"
-        />
-      </div>
+      <EntityTable
+        entities={visibleTasks || []}
+        loading={GetTasks.isLoading}
+        columns={columns}
+        actions={actions}
+        filterFunction={filterFunction}
+        tableHeader={tableHeader}
+        entityName="miembro"
+        entityNamePlural="miembros"
+        needsUpdate={false}
+        collection="teams_users"
+        deleteAttribute="user_id"
+      />
     </div>
   );
 }

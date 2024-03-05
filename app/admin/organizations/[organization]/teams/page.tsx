@@ -70,28 +70,26 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-6">
-      <header className="flex flex-col items-center justify-center w-full gap-4">
+      <header className="flex flex-col items-start justify-center w-full gap-4">
         <h1 className="text-5xl font-bold animate-in">Equipos</h1>
         <Breadcrumbs>
           <BreadcrumbItem>Inicio</BreadcrumbItem>
           <BreadcrumbItem>Equipos</BreadcrumbItem>
         </Breadcrumbs>
       </header>
-      <div className="w-10/12">
-        <EntityTable
-          entities={GetMembers.data?.data || []}
-          loading={GetMembers.isLoading}
-          columns={columns}
-          actions={actions}
-          filterFunction={filterFunction}
-          tableHeader={tableHeader}
-          entityName="equipo"
-          entityNamePlural="equipos"
-          needsUpdate={false}
-          collection="teams"
-          deleteAttribute="id"
-        />
-      </div>
+      <EntityTable
+        entities={GetMembers.data?.data || []}
+        loading={GetMembers.isLoading}
+        columns={columns}
+        actions={actions}
+        filterFunction={filterFunction}
+        tableHeader={tableHeader}
+        entityName="equipo"
+        entityNamePlural="equipos"
+        needsUpdate={false}
+        collection="teams"
+        deleteAttribute="id"
+      />
     </div>
   );
 }
