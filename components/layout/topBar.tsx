@@ -1,15 +1,10 @@
-import {
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/react";
+import { Avatar, Button, Input } from "@nextui-org/react";
+import { IconBell, IconMoon, IconSearch, IconUser } from "@tabler/icons-react";
 import { cookies } from "next/headers";
 
 import { createClient } from "@/utils/supabase/server";
 
-import OrganizationSelector from "./organizationSelector";
+import { ThemeSwitcher } from "./themeSwitcher";
 
 export default async function TopBar() {
   const cookieStore = cookies();
@@ -32,83 +27,40 @@ export default async function TopBar() {
     .single();
 
   return (
-    <Navbar className="w-11/12 rounded-xl" maxWidth="full">
-      <NavbarBrand>
-        <div className="flex items-baseline justify-center gap-4">
-          <p className="">
-            <span className="text-xl font-bold text-primary"> Minerva/</span>
-            <span className="text-sm font-semibold text-black">
-              {organization?.name}
-            </span>
-          </p>
+    <div className="flex items-center justify-between w-full px-10 py-2 border-b-2 bg-default-50 h-14 border-b-gray-200 dark:border-b-default-200">
+      <div className="flex items-center justify-center gap-2">
+        <Avatar
+          size="sm"
+          icon={<IconUser size={18} />}
+          classNames={{
+            base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B]",
+            icon: "text-black/80",
+          }}
+        />
+        <span className="font-bold">Hola, Elmer Cortez</span>
+      </div>
+      <div className="flex items-center justify-center gap-2">
+        <Input
+          isClearable
+          size="sm"
+          type="text"
+          placeholder="Buscar"
+          labelPlacement="outside"
+          startContent={
+            <IconSearch className="pointer-events-none text-default-400" />
+          }
+        />
+        <div className="flex items-center justify-center gap-1">
+          <Button
+            size="sm"
+            radius="full"
+            isIconOnly
+            variant="light"
+            startContent={<IconBell size={20} className="text-default-600" />}
+          />
+          <ThemeSwitcher />
         </div>
-      </NavbarBrand>
-      <NavbarContent className="hidden gap-6 sm:flex" justify="center">
-        <NavbarItem isActive>
-          <Link href={`/admin/organizations/${organization?.slug}`}>
-            Inicio
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/projects`}
-          >
-            Proyectos
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/tasks`}
-          >
-            Tareas
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/issues`}
-          >
-            Incidencias
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/sprints`}
-          >
-            Sprints
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/members`}
-          >
-            Miembros
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/teams`}
-          >
-            Equipos
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link
-            color="foreground"
-            href={`/admin/organizations/${organization?.slug}/chat`}
-          >
-            Chat
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="font-semibold">{data?.user_name}</NavbarItem>
-      </NavbarContent>
-    </Navbar>
+      </div>
+    </div>
   );
 }
